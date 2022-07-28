@@ -1,20 +1,32 @@
 package br.com.oobj.sender;
 
-import org.springframework.beans.factory.annotation.Value;
+import br.com.oobj.sender.service.ArquivoService;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Consumer {
 
-    @Value("${sender.diretorio.saida}")
-    private String diretoriosaida;
+    private final List<String> dadosSaida = new ArrayList<>();
 
+    private ArquivoService arquivoService;
+
+    public Consumer(ArquivoService arquivoService) {
+        this.arquivoService = arquivoService;
+    }
 
     @JmsListener(destination = "pre_impressao", concurrency = "4")
-    public void consumerFila(String string) {
+    public void consumerFila(String string) throws IOException {
         String string1 = removeEspacos(string);
-        System.out.println(retornaSubItinerario(string1) + "|" + retornaSequencia(string1));
+        dadosSaida.add(retornaSubItinerario(string1) + "|" + retornaSequencia(string1));
+        if (dadosSaida.size() == 44) {
+            arquivoService.retornaArquivo(dadosSaida);
+        }
+
     }
 
     private Object retornaSequencia(String string) {

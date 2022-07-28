@@ -27,10 +27,12 @@ public class Enfileirador {
 
     private final JmsTemplate jmsTemplate;
     private final ArquivoService arquivoService;
+    private Consumer consumer;
 
-    public Enfileirador(JmsTemplate jmsTemplate, ArquivoService arquivoService) {
+    public Enfileirador(JmsTemplate jmsTemplate, ArquivoService arquivoService, Consumer consumer) {
         this.jmsTemplate = jmsTemplate;
         this.arquivoService = arquivoService;
+        this.consumer = consumer;
     }
 
     public void enviaFila(String nomeArquivo) throws IOException {
