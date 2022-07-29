@@ -1,6 +1,6 @@
 package br.com.oobj.sender.service;
 
-import lombok.var;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
@@ -12,6 +12,13 @@ import java.util.List;
 
 @Service
 public class ArquivoSaidaService {
+
+    private final String pathSaida;
+
+    public ArquivoSaidaService(@Value("${sender.diretorio.saida}") String pathSaida) {
+        this.pathSaida = pathSaida;
+    }
+
     public Object retornaSequencia(String string) {
         return string.substring(string.trim().indexOf("SEQ") + 4, string.indexOf("22008",
                 string.indexOf("SEQ")));
@@ -32,7 +39,8 @@ public class ArquivoSaidaService {
     }
 
     public void retornaArquivo(List<String> mensagens) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(nomeArquivoRetorno()));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(salvaNomeiaArquivoRetorno()));
+        bufferedWriter.write("SUB-INTINERÁRIO|SEQUENCIAMENTO" + "\n");
         for (String mensagem : mensagens) {
             bufferedWriter.write(mensagem);
             bufferedWriter.newLine();
@@ -40,11 +48,9 @@ public class ArquivoSaidaService {
         bufferedWriter.close();
     }
 
-    private String nomeArquivoRetorno() {
+    private String salvaNomeiaArquivoRetorno() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        var path = "C:/Users/Marcelo-Oobj/Desktop/Saida/";
-        var caminho = path;
         LocalDateTime localDateTime = LocalDateTime.now();
-        return caminho + "pre-impressao-" + localDateTime.format(formatter) + "-retorno" + ".txt";
+        return pathSaida + "pre-impressao-" + localDateTime.format(formatter) + "-retorno" + ".txt";
     }
 }
