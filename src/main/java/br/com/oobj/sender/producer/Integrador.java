@@ -1,7 +1,7 @@
-package br.com.oobj.sender;
+package br.com.oobj.sender.producer;
 
 
-import br.com.oobj.sender.service.ArquivoService;
+import br.com.oobj.sender.service.ArquivoEntradaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,17 @@ public class Integrador {
     @Value("${sender.diretorio.entrada}")
     private String diretorioEntrada;
 
-    @Value("${sender.diretorio.processados}")
-    private String diretorioProcessados;
-
-    private final ArquivoService arquivoService;
+    private final ArquivoEntradaService arquivoEntradaService;
     private final Enfileirador enfileirador;
 
-    public Integrador(ArquivoService arquivoService, Enfileirador enfileirador) {
-        this.arquivoService = arquivoService;
+    public Integrador(ArquivoEntradaService arquivoEntradaService, Enfileirador enfileirador) {
+        this.arquivoEntradaService = arquivoEntradaService;
         this.enfileirador = enfileirador;
     }
 
 
     public void processaArquivo(String arquivo, LocalDateTime localDateTime) throws IOException {
-        arquivoService.salvaArquivo(arquivo, novoNomeArquivo(localDateTime), diretorioEntrada);
+        arquivoEntradaService.salvaArquivo(arquivo, novoNomeArquivo(localDateTime), diretorioEntrada);
         enfileirador.enviaFila(novoNomeArquivo(localDateTime));
 
     }

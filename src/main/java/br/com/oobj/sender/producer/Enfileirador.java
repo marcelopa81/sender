@@ -1,7 +1,7 @@
-package br.com.oobj.sender;
+package br.com.oobj.sender.producer;
 
 
-import br.com.oobj.sender.service.ArquivoService;
+import br.com.oobj.sender.service.ArquivoEntradaService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -26,13 +26,12 @@ public class Enfileirador {
     private String diretorioProcessados;
 
     private final JmsTemplate jmsTemplate;
-    private final ArquivoService arquivoService;
-    private Consumer consumer;
+    private final ArquivoEntradaService arquivoEntradaService;
 
-    public Enfileirador(JmsTemplate jmsTemplate, ArquivoService arquivoService, Consumer consumer) {
+
+    public Enfileirador(JmsTemplate jmsTemplate, ArquivoEntradaService arquivoEntradaService) {
         this.jmsTemplate = jmsTemplate;
-        this.arquivoService = arquivoService;
-        this.consumer = consumer;
+        this.arquivoEntradaService = arquivoEntradaService;
     }
 
     public void enviaFila(String nomeArquivo) throws IOException {
@@ -54,7 +53,7 @@ public class Enfileirador {
             }
         }
         scanner.close();
-        arquivoService.moveArquivo(nomeArquivo, diretorioEntrada, diretorioProcessados);
+        arquivoEntradaService.moveArquivo(nomeArquivo, diretorioEntrada, diretorioProcessados);
 
     }
 }

@@ -1,4 +1,4 @@
-package br.com.oobj.sender;
+package br.com.oobj.sender.controller;
 
 public class ImpressaoResposta {
     private boolean impressaoSolicidata;
