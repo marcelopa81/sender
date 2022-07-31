@@ -10,4 +10,4 @@ Enfileirador - faz a leitura dos arquivos de entrada e enfileira os dados para o
 
 Broker - tem o papel de distribuir as mensagens para as múltiplas instâncias da aplicação. Esse distribuidor (broker) é o ActiveMQ.
 
-Receiver - irá consumir as mensagens do broker e retornar a saída do manifesto de tranporte em uma pasta de saída
+Receiver - irá consumir as mensagens do broker e retornar a saída do manifesto de tranporte em uma pasta de saída.
