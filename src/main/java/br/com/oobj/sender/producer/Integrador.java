@@ -27,7 +27,6 @@ public class Integrador {
     public void processaArquivo(String arquivo, LocalDateTime localDateTime) throws IOException {
         arquivoEntradaService.salvaArquivo(arquivo, novoNomeArquivo(localDateTime), diretorioEntrada);
         enfileirador.enviaFila(novoNomeArquivo(localDateTime));
-
     }
 
     private String novoNomeArquivo(LocalDateTime localDateTime) {

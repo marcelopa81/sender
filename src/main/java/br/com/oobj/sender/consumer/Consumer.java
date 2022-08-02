@@ -20,16 +20,13 @@ public class Consumer {
     }
 
     @JmsListener(destination = "pre_impressao", concurrency = "4")
-    public void consumerFila(String string) throws IOException {
-        String string1 = arquivoSaidaService.removeEspacos(string);
-        dadosSaida.add(arquivoSaidaService.retornaSubItinerario(string1) + "|" +
-                arquivoSaidaService.retornaSequencia(string1));
+    public void consumerFila(String mensagensProcessadas) throws IOException {
+        String conteudo = arquivoSaidaService.removeEspacos(mensagensProcessadas);
+        dadosSaida.add(arquivoSaidaService.retornaSubItinerario(conteudo) + "|" +
+                arquivoSaidaService.retornaSequencia(conteudo));
         if (dadosSaida.size() == 44) {
             arquivoSaidaService.retornaArquivo(dadosSaida);
         }
-
     }
-
-
 
 }

@@ -40,7 +40,7 @@ public class ArquivoSaidaService {
 
     public void retornaArquivo(List<String> mensagens) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(salvaNomeiaArquivoRetorno()));
-        bufferedWriter.write("SUB-INTINERÁRIO|SEQUENCIAMENTO" + "\n");
+        bufferedWriter.write("SUB-INTINERÁRIO|SEQ" + "\n");
         for (String mensagem : mensagens) {
             bufferedWriter.write(mensagem);
             bufferedWriter.newLine();
